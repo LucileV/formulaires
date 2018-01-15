@@ -2,28 +2,52 @@
 
 <?php
 
-$req = $bdd->prepare('INSERT INTO connexion(nom, prenom, pseudo, password, nbre_joueurs_max, commentaires) VALUES(:nom, :prenom, :pseudo, :password, :email, :commentaires)');
+// On démarre la session AVANT d'écrire du code HTML
+session_start();
 
-$req->execute(array(
+$_SESSION['pseudo'] = ($_POST['pseudo']);
 
-    'nom' => $nom,
-
-    'prenom' => $prenom,
-
-    'pseudo' => $pseudo,
-
-    'password' => $password,
-
-    'email' => $email,
-
-    'commentaires' => $commentaires
-
-    ));
-
-
-echo 'Le jeu a bien été ajouté !';
+$_SESSION['pass'] = ($_POST['pass']);
 
 ?>
+
+
+
+<?php
+//Insertion du nouvel article dans la base de données
+if(isset($_POST) && ((empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['pseudo']) || empty($_POST['password'] ) || empty($_POST['email'] )))):?>
+    <p>Veuillez remplir tous les champs !</p>
+
+?>
+
+<?php
+elseif(!empty($_POST['nom']) && 
+	   !empty($_POST['prenom']) &&
+	   !empty($_POST['pseudo']) &&
+	   !empty($_POST['password']) &&
+	   !empty($_POST['email'])
+	  )
+	{
+    $req = $bdd->prepare('INSERT INTO connexion (nom, prenom, pseudo, password, nbre_joueurs_max, commentaires) 
+    	VALUES(:nom, :prenom, :pseudo, :password, :email)');
+    
+    $req->execute(
+    	array(
+        'nom'=>htmlspecialchars($_POST['nom']),
+        'prenom'=>htmlspecialchars($_POST['prenom']),
+        'pseudo'=>htmlspecialchars($_POST['pseudo']),
+        'password'=>htmlspecialchars($_POST['password'],
+   		'email'=>htmlspecialchars($_POST['email')
+    		  )
+   		);
+}
+
+var_dump($_POST); 
+
+?>
+
+
+
 
 <!doctype html>
 <html lang="en">
@@ -55,7 +79,7 @@ echo 'Le jeu a bien été ajouté !';
     <div  class="container">
 	<h1>Formulaire de connexion</h1>
 		
-		<form class="">
+		<form class="formulaire"  action="" methode="post">
 			<div class="row">
 			  <div class="col-6">
 			    <label for="nom">Nom</label>
@@ -67,7 +91,7 @@ echo 'Le jeu a bien été ajouté !';
 			  </div>
 			   <div class="col-6">
 			    <label for="pseudo">Pseudo</label>
-			    <input type="pseudo" class="form-control" id="pseudo" aria-describedby="nom" placeholder="Pseudo">  
+			    <input type="pseudo" class="form-control" id="pseudo" aria-describedby="pseudo" placeholder="Pseudo">  
 			  </div>
 			  <div class="col-6" >
 			    <label for="password">Password</label>
