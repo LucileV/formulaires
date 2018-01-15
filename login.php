@@ -1,3 +1,30 @@
+<?php include('connexion.php'); ?>
+
+<?php
+
+$req = $bdd->prepare('INSERT INTO connexion(nom, prenom, pseudo, password, nbre_joueurs_max, commentaires) VALUES(:nom, :prenom, :pseudo, :password, :email, :commentaires)');
+
+$req->execute(array(
+
+    'nom' => $nom,
+
+    'prenom' => $prenom,
+
+    'pseudo' => $pseudo,
+
+    'password' => $password,
+
+    'email' => $email,
+
+    'commentaires' => $commentaires
+
+    ));
+
+
+echo 'Le jeu a bien été ajouté !';
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -32,15 +59,15 @@
 			<div class="row">
 			  <div class="col-6">
 			    <label for="nom">Nom</label>
-			    <input type="nom" class="form-control" id="exampleInputEmail1" aria-describedby="nom" placeholder="Nom">  
+			    <input type="nom" class="form-control" id="nom" aria-describedby="nom" placeholder="Nom">  
 			  </div>
 			  <div class="col-6">
 			    <label for="prenom">Prénom</label>
-			    <input type="prenom" class="form-control" id="exampleInputEmail1" aria-describedby="nom" placeholder="Prénom">  
+			    <input type="prenom" class="form-control" id="prenom" aria-describedby="nom" placeholder="Prénom">  
 			  </div>
 			   <div class="col-6">
 			    <label for="pseudo">Pseudo</label>
-			    <input type="pseudo" class="form-control" id="exampleInputEmail1" aria-describedby="nom" placeholder="Pseudo">  
+			    <input type="pseudo" class="form-control" id="pseudo" aria-describedby="nom" placeholder="Pseudo">  
 			  </div>
 			  <div class="col-6" >
 			    <label for="password">Password</label>
@@ -48,7 +75,7 @@
 			  </div>
 			<div class="col-12">
 				<label for="email">Email address</label>
-			    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+			    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
 			    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 			</div>
 			<div class="form-check col-6">
